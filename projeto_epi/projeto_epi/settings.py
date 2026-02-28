@@ -77,10 +77,11 @@ WSGI_APPLICATION = 'projeto_epi.wsgi.application'
 # projeto_epi/settings.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
         'NAME': 'epi_db',         # O nome do banco que você criou
         'USER': 'root',    # Seu usuário do MySQL (ex: 'root')
-        'PASSWORD': 'root',  # Sua senha do MySQL
+        'PASSWORD': 'senai',  # Sua senha do MySQL
         'HOST': 'localhost',      # Ou o IP do seu servidor de banco
         'PORT': '3306',           # Porta padrão do MySQL
     }
