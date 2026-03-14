@@ -7,8 +7,8 @@ from django.test import TestCase
 
 import pytest
 from django.utils import timezone
+from django.db import IntegrityError
 from gestao.models import Colaborador, Equipamento, Emprestimo
-
 
 # ==============================
 # TESTE COLABORADOR
@@ -106,3 +106,50 @@ def test_devolucao_emprestimo():
     emprestimo.save()
 
     assert emprestimo.data_devolucao is not None
+
+# ==============================
+# TESTE MATRICULA UNICA
+# ==============================
+
+@pytest.mark.django_db
+def test_matricula_unica_colaborador():
+    Colaborador.objects.create(
+        nome="João",
+        matricula="123",
+        cargo="Operador"
+    )
+
+    with pytest.raises(IntegrityError):
+        Colaborador.objects.create(
+            nome="Maria",
+            matricula="123",
+            cargo="Técnica"
+        )
+
+# ==============================
+# TESTE STR COLABORADOR
+# ==============================
+
+@pytest.mark.django_db
+def test_str_colaborador():
+    colaborador = Colaborador.objects.create(
+        nome="Ana Souza",
+        matricula="777",
+        cargo="Engenheira"
+    )
+
+    assert str(colaborador) == "Ana Souza (777)"
+
+    # ==============================
+# TESTE COLABORADOR INICIA ATIVO
+# ==============================
+
+@pytest.mark.django_db
+def test_colaborador_inicia_ativo():
+    colaborador = Colaborador.objects.create(
+        nome="Roberto Lima",
+        matricula="555",
+        cargo="Analista"
+    )
+
+    assert colaborador.ativo is True
